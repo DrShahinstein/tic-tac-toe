@@ -18,3 +18,25 @@ code {
   width: 306px;
   margin: 50px auto;
 }
+
+#settings-gui {
+  width: 800px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.option {
+  width: inherit;
+  height: auto;
+  padding: 5px;
+  background-color: burlywood;
+  font-size: large;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.option:hover {
+  opacity: 0.9;
+}

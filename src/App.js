@@ -1,61 +1,48 @@
 import React, { useState } from "react";
-import { ListGroup, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Spot from "./components/spot";
+import Board from "./components/board";
 
 function App() {
-  const [showBoard, setShowBoard] = useState(true);
-  const players = {
-    player1: "X",
-    player2: "O",
-  };
-  const handleClick = (e) => {
-    e.target.innerText = players.player1;
+  const saveSettings = () => {
+    setShowBoard(!showBoard);
   };
 
-  const resetBoard = () => {
-    for (let i of document.getElementsByClassName("spot")) {
-      i.innerText = "";
-    }
+  const [showBoard, setShowBoard] = useState(false);
+  let settings = {
+    gameMode: undefined,
+    sideOfUser: undefined,
   };
 
   if (showBoard) {
-    return (
-      <div id="settings-gui">
-        <h2>Select the Game Mode</h2>
-        <ListGroup>
-          <ListGroup.Item>Player vs Player</ListGroup.Item>
-          <ListGroup.Item>Player vs Computer</ListGroup.Item>
-        </ListGroup>
-        <h2>Select Your Side</h2>
-        <ListGroup>
-          <ListGroup.Item>X</ListGroup.Item>
-          <ListGroup.Item>O</ListGroup.Item>
-        </ListGroup>
-        <Button onClick={() => setShowBoard(!showBoard)}>OK</Button>
-      </div>
-    );
-  } else {
-    return (
-      <>
-        <div id="board">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((element) => {
-            return (
-              <Spot
-                id={"spot-" + element}
-                onClick={handleClick}
-                key={element}
-              />
-            );
-          })}
-        </div>
-        <ListGroup>
-          <Button className="mb-2">Go Back to Settings</Button>
-          <Button onClick={resetBoard}>Reset the Board</Button>
-        </ListGroup>
-      </>
-    );
+    return <Board />;
   }
+  return (
+    <>
+      <div id="settings-gui">
+        <div>
+          <h2>Select Game Mode</h2>
+          <div className="option" onClick={() => (settings.gameMode = "PvP")}>
+            Player vs Player
+          </div>
+          <div className="option" onClick={() => (settings.gameMode = "PvC")}>
+            Player vs Computer
+          </div>
+        </div>
+        <div className="mt-5">
+          <h2>Select Your Side</h2>
+          <div className="option" onClick={() => (settings.sideOfUser = "X")}>
+            <b>X</b>
+          </div>
+          <div className="option" onClick={() => (settings.sideOfUser = "O")}>
+            <b>O</b>
+          </div>
+        </div>
+        <br /> <br /> <br />
+        <Button onClick={saveSettings}>OK</Button>
+      </div>
+    </>
+  );
 }
 
 export default App;
