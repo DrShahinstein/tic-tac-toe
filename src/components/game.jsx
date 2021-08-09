@@ -5,47 +5,49 @@ import Spot from "./spot";
 function Game(props) {
   // Functions
   const handleClick = (e) => {
-    console.log(settings);
     if (settings.gameMode === "PvC") {
-      e.target.innerText = players.user;
+      // If game mode is "Player vs Computer" ...
+
+      e.target.innerText = players.user; // Place the mark of user to the target spot having in DOM
+
+      // Place the mark of user to the target spot of `board` array/state.
       const spotID = e.target.getAttribute("id");
-      let newBoard = board;
+
       switch (spotID) {
         case "spot-1":
-          newBoard[0][0] = players.user;
-          setBoard(newBoard);
+          updateBoardState(0, 0);
           break;
+
         case "spot-2":
-          newBoard[0][1] = players.user;
-          setBoard(newBoard);
+          updateBoardState(0, 1);
           break;
+
         case "spot-3":
-          newBoard[0][2] = players.user;
-          setBoard(newBoard);
+          updateBoardState(0, 2);
           break;
+
         case "spot-4":
-          newBoard[1][0] = players.user;
-          setBoard(newBoard);
+          updateBoardState(1, 0);
           break;
+
         case "spot-5":
-          newBoard[1][1] = players.user;
-          setBoard(newBoard);
+          updateBoardState(1, 1);
           break;
+
         case "spot-6":
-          newBoard[1][2] = players.user;
-          setBoard(newBoard);
+          updateBoardState(1, 2);
           break;
+
         case "spot-7":
-          newBoard[2][0] = players.user;
-          setBoard(newBoard);
+          updateBoardState(2, 0);
           break;
+
         case "spot-8":
-          newBoard[2][1] = players.user;
-          setBoard(newBoard);
+          updateBoardState(2, 1);
           break;
+
         case "spot-9":
-          newBoard[2][2] = players.user;
-          setBoard(newBoard);
+          updateBoardState(2, 2);
           break;
 
         default:
@@ -53,16 +55,92 @@ function Game(props) {
       }
 
       if (returnValueOfPosition(board) || !getDepth(board)) {
-        setIsModalVisible(!isModalVisible);
+        // Did game finish ? In this case:
+        setIsResultModalVisible(!isResultModalVisible);
+      } else {
+        // otherwise:
+        const bestValues = max(board);
+        updateBoardState(bestValues.row, bestValues.col, players.opponnent);
       }
     } else {
-      // Code
+      // Otherwise, if the game mode is PvP:
     }
   };
 
   const playAgain = () => {
-    setIsModalVisible(!isModalVisible);
+    setIsResultModalVisible(!isResultModalVisible);
     setBoard(initialBoard);
+  };
+
+  const updateBoardState = (row, col, player = players.user) => {
+    let newBoard = board;
+    newBoard[row][col] = player;
+    setBoard(newBoard);
+  };
+
+  const min = (board) => {
+    const valueOfPosition = returnValueOfPosition(board);
+
+    if (valueOfPosition !== 0 || getDepth(board) === 0) {
+      return valueOfPosition;
+    }
+
+    let highestValue = Infinity;
+
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (board[i][j] === EMPTY) {
+          board[i][j] = players.user;
+          const bestValuesForComputer = max(board);
+
+          if (bestValuesForComputer.point < highestValue) {
+            highestValue = bestValuesForComputer.point;
+          }
+
+          board[i][j] = EMPTY;
+        } else {
+          setIsWarningModalVisible(!isWarningModalVisible);
+        }
+      }
+    }
+
+    return highestValue;
+  };
+
+  const max = (board) => {
+    const valueOfPosition = returnValueOfPosition(board);
+
+    if (valueOfPosition !== 0 || getDepth(board) === 0) {
+      return valueOfPosition;
+    }
+
+    let highestValue = -Infinity;
+    let bestRow = undefined;
+    let bestCol = undefined;
+
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (board[i][j] === EMPTY) {
+          board[i][j] = players.opponnent;
+          const bestPointForUser = min(board);
+
+          if (bestPointForUser > highestValue) {
+            highestValue = bestPointForUser;
+            bestRow = i;
+            bestCol = j;
+          }
+
+          board[i][j] = EMPTY;
+        } else {
+          setIsWarningModalVisible(!isWarningModalVisible);
+        }
+      }
+    }
+    return {
+      highestValue: highestValue,
+      row: bestRow,
+      col: bestCol,
+    };
   };
 
   const returnValueOfPosition = (position) => {
@@ -120,8 +198,9 @@ function Game(props) {
     return count;
   };
 
-  // Others
+  // Others (variables, states, JSX ...)
   const EMPTY = "";
+
   const initialBoard = [
     [EMPTY, EMPTY, EMPTY],
     [EMPTY, EMPTY, EMPTY],
@@ -130,16 +209,19 @@ function Game(props) {
 
   const [board, setBoard] = useState(initialBoard);
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isResultModalVisible, setIsResultModalVisible] = useState(false);
+  const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
 
   const settings = props.settings;
+
   const players = {
     user: settings.user,
     opponnent: settings.user === "X" ? "O" : "X",
   };
+
   return (
     <>
-      <Modal show={isModalVisible}>
+      <Modal show={isResultModalVisible}>
         <Modal.Header>
           <Modal.Title>[ RESULT ]</Modal.Title>
         </Modal.Header>
@@ -154,6 +236,27 @@ function Game(props) {
           </Button>
           <Button variant="primary" onClick={() => window.location.reload()}>
             Go Back to Settings
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={isWarningModalVisible}>
+        <Modal.Header>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>You cannot move to a filled spot</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={() => setIsWarningModalVisible(!isWarningModalVisible)}
+            variant="secondary"
+          >
+            Close
+          </Button>
+          <Button
+            onClick={() => setIsWarningModalVisible(!isWarningModalVisible)}
+          >
+            OK
           </Button>
         </Modal.Footer>
       </Modal>

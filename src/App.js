@@ -49,6 +49,14 @@ class App extends React.Component {
     }));
   };
 
+  setGameMode = (gameMode) => {
+    this.setState(() => ({ gameMode: gameMode }));
+  };
+
+  setPickOfUser = (pick) => {
+    this.setState(() => ({ user: pick }));
+  };
+
   render() {
     if (this.state.showBoard) {
       return (
@@ -83,35 +91,19 @@ class App extends React.Component {
         <div id="settings-gui">
           <div>
             <h2>Select Game Mode</h2>
-            <div
-              className="option"
-              onClick={() =>
-                this.setState((prevState) => ({ gameMode: "PvP" }))
-              }
-            >
+            <div className="option" onClick={this.setGameMode}>
               Player vs Player
             </div>
-            <div
-              className="option"
-              onClick={() =>
-                this.setState((prevState) => ({ gameMode: "PvC" }))
-              }
-            >
+            <div className="option" onClick={this.setGameMode}>
               Player vs Computer
             </div>
           </div>
           <div className="mt-5">
             <h2>Select Your Side</h2>
-            <div
-              className="option"
-              onClick={() => this.setState((prevState) => ({ user: "X" }))}
-            >
+            <div className="option" onClick={this.setPickOfUser}>
               <b>X</b>
             </div>
-            <div
-              className="option"
-              onClick={() => this.setState((prevState) => ({ user: "O" }))}
-            >
+            <div className="option" onClick={this.setPickOfUser}>
               <b>O</b>
             </div>
           </div>
