@@ -32,12 +32,12 @@ class App extends React.Component {
   themeSwitcher = () => {
     if (this.state.theme === "Light") {
       document.body.style.backgroundColor = "#222222";
-      // code
+      document.getElementById("board").style.color = "white";
 
       this.setState({ theme: "Dark" });
     } else {
       document.body.style.backgroundColor = "White";
-      // code
+      document.getElementById("board").style.color = "#222222";
 
       this.setState({ theme: "Light" });
     }
@@ -91,19 +91,19 @@ class App extends React.Component {
         <div id="settings-gui">
           <div>
             <h2>Select Game Mode</h2>
-            <div className="option" onClick={this.setGameMode}>
+            <div className="option" onClick={() => this.setGameMode("PvP")}>
               Player vs Player
             </div>
-            <div className="option" onClick={this.setGameMode}>
+            <div className="option" onClick={() => this.setGameMode("PvC")}>
               Player vs Computer
             </div>
           </div>
           <div className="mt-5">
             <h2>Select Your Side</h2>
-            <div className="option" onClick={this.setPickOfUser}>
+            <div className="option" onClick={() => this.setPickOfUser("X")}>
               <b>X</b>
             </div>
-            <div className="option" onClick={this.setPickOfUser}>
+            <div className="option" onClick={() => this.setPickOfUser("O")}>
               <b>O</b>
             </div>
           </div>
