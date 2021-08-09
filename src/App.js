@@ -1,48 +1,129 @@
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import React from "react";
+import { Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Board from "./components/board";
+import Game from "./components/game";
 
-function App() {
-  const saveSettings = () => {
-    setShowBoard(!showBoard);
-  };
-
-  const [showBoard, setShowBoard] = useState(false);
-  let settings = {
-    gameMode: undefined,
-    sideOfUser: undefined,
-  };
-
-  if (showBoard) {
-    return <Board />;
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showBoard: false,
+      isModalVisible: false,
+      theme: "Light",
+      user: undefined,
+      gameMode: undefined,
+    };
   }
-  return (
-    <>
-      <div id="settings-gui">
-        <div>
-          <h2>Select Game Mode</h2>
-          <div className="option" onClick={() => (settings.gameMode = "PvP")}>
-            Player vs Player
+
+  saveSettings = () => {
+    this.settings = {
+      gameMode: this.state.gameMode,
+      user: this.state.user,
+    };
+    if (this.settings.user && this.settings.gameMode) {
+      this.setState((prevState) => ({ showBoard: !prevState.showBoard }));
+    } else {
+      this.setState((prevState) => ({
+        isModalVisible: !prevState.isModalVisible,
+      }));
+    }
+  };
+
+  themeSwitcher = () => {
+    if (this.state.theme === "Light") {
+      document.body.style.backgroundColor = "#222222";
+      // code
+
+      this.setState({ theme: "Dark" });
+    } else {
+      document.body.style.backgroundColor = "White";
+      // code
+
+      this.setState({ theme: "Light" });
+    }
+  };
+
+  closeModal = () => {
+    this.setState((prevState) => ({
+      isModalVisible: !prevState.isModalVisible,
+    }));
+  };
+
+  render() {
+    if (this.state.showBoard) {
+      return (
+        <>
+          <Button className="theme-switcher" onClick={this.themeSwitcher}>
+            Switch to {this.state.theme === "Light" ? "Dark" : "Light"} Theme
+          </Button>
+          <Game settings={this.settings} />
+        </>
+      );
+    }
+    return (
+      <>
+        <Modal show={this.state.isModalVisible}>
+          <Modal.Header>
+            <Modal.Title>Error</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>
+              You should set your settings before playing the game <br />
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.closeModal}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={this.closeModal}>
+              OK
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <div id="settings-gui">
+          <div>
+            <h2>Select Game Mode</h2>
+            <div
+              className="option"
+              onClick={() =>
+                this.setState((prevState) => ({ gameMode: "PvP" }))
+              }
+            >
+              Player vs Player
+            </div>
+            <div
+              className="option"
+              onClick={() =>
+                this.setState((prevState) => ({ gameMode: "PvC" }))
+              }
+            >
+              Player vs Computer
+            </div>
           </div>
-          <div className="option" onClick={() => (settings.gameMode = "PvC")}>
-            Player vs Computer
+          <div className="mt-5">
+            <h2>Select Your Side</h2>
+            <div
+              className="option"
+              onClick={() => this.setState((prevState) => ({ user: "X" }))}
+            >
+              <b>X</b>
+            </div>
+            <div
+              className="option"
+              onClick={() => this.setState((prevState) => ({ user: "O" }))}
+            >
+              <b>O</b>
+            </div>
           </div>
+          <br />
+          <div>Game Mode: {this.state.gameMode}</div>
+          <div>User's Pick: {this.state.user}</div>
+          <br /> <br /> <br />
+          <Button onClick={this.saveSettings}>OK</Button>
         </div>
-        <div className="mt-5">
-          <h2>Select Your Side</h2>
-          <div className="option" onClick={() => (settings.sideOfUser = "X")}>
-            <b>X</b>
-          </div>
-          <div className="option" onClick={() => (settings.sideOfUser = "O")}>
-            <b>O</b>
-          </div>
-        </div>
-        <br /> <br /> <br />
-        <Button onClick={saveSettings}>OK</Button>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 }
 
 export default App;

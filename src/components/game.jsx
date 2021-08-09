@@ -2,56 +2,61 @@ import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Spot from "./spot";
 
-function Board() {
+function Game(props) {
   // Functions
   const handleClick = (e) => {
-    e.target.innerText = players.player1;
-    const spotID = e.target.getAttribute("id");
-    let newBoard = board;
-    switch (spotID) {
-      case "spot-1":
-        newBoard[0][0] = players.player1;
-        setBoard(newBoard);
-        break;
-      case "spot-2":
-        newBoard[0][1] = players.player1;
-        setBoard(newBoard);
-        break;
-      case "spot-3":
-        newBoard[0][2] = players.player1;
-        setBoard(newBoard);
-        break;
-      case "spot-4":
-        newBoard[1][0] = players.player1;
-        setBoard(newBoard);
-        break;
-      case "spot-5":
-        newBoard[1][1] = players.player1;
-        setBoard(newBoard);
-        break;
-      case "spot-6":
-        newBoard[1][2] = players.player1;
-        setBoard(newBoard);
-        break;
-      case "spot-7":
-        newBoard[2][0] = players.player1;
-        setBoard(newBoard);
-        break;
-      case "spot-8":
-        newBoard[2][1] = players.player1;
-        setBoard(newBoard);
-        break;
-      case "spot-9":
-        newBoard[2][2] = players.player1;
-        setBoard(newBoard);
-        break;
+    console.log(settings);
+    if (settings.gameMode === "PvC") {
+      e.target.innerText = players.user;
+      const spotID = e.target.getAttribute("id");
+      let newBoard = board;
+      switch (spotID) {
+        case "spot-1":
+          newBoard[0][0] = players.user;
+          setBoard(newBoard);
+          break;
+        case "spot-2":
+          newBoard[0][1] = players.user;
+          setBoard(newBoard);
+          break;
+        case "spot-3":
+          newBoard[0][2] = players.user;
+          setBoard(newBoard);
+          break;
+        case "spot-4":
+          newBoard[1][0] = players.user;
+          setBoard(newBoard);
+          break;
+        case "spot-5":
+          newBoard[1][1] = players.user;
+          setBoard(newBoard);
+          break;
+        case "spot-6":
+          newBoard[1][2] = players.user;
+          setBoard(newBoard);
+          break;
+        case "spot-7":
+          newBoard[2][0] = players.user;
+          setBoard(newBoard);
+          break;
+        case "spot-8":
+          newBoard[2][1] = players.user;
+          setBoard(newBoard);
+          break;
+        case "spot-9":
+          newBoard[2][2] = players.user;
+          setBoard(newBoard);
+          break;
 
-      default:
-      //
-    }
+        default:
+        //
+      }
 
-    if (returnValueOfPosition(board) || !getDepth(board)) {
-      setIsModalVisible(!isModalVisible);
+      if (returnValueOfPosition(board) || !getDepth(board)) {
+        setIsModalVisible(!isModalVisible);
+      }
+    } else {
+      // Code
     }
   };
 
@@ -67,7 +72,7 @@ function Board() {
         position[1][i] === position[2][i] &&
         position[0][i] !== ""
       ) {
-        if (position[0][i] === players.player1) return -1;
+        if (position[0][i] === players.user) return -1;
         else return 1;
       }
     }
@@ -78,7 +83,7 @@ function Board() {
         position[i][1] === position[i][2] &&
         position[i][0] !== ""
       ) {
-        if (position[i][0] === players.player1) return -1;
+        if (position[i][0] === players.user) return -1;
         else return 1;
       }
     }
@@ -88,7 +93,7 @@ function Board() {
       position[1][1] === position[2][2] &&
       position[0][0] !== ""
     ) {
-      if (position[0][0] === players.player1) return -1;
+      if (position[0][0] === players.user) return -1;
       else return 1;
     }
 
@@ -97,7 +102,7 @@ function Board() {
       position[1][1] === position[2][0] &&
       position[0][2] !== ""
     ) {
-      if (position[0][2] === players.player1) return -1;
+      if (position[0][2] === players.user) return -1;
       else return 1;
     }
     return 0;
@@ -127,11 +132,11 @@ function Board() {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const settings = props.settings;
   const players = {
-    player1: "X",
-    player2: "O",
+    user: settings.user,
+    opponnent: settings.user === "X" ? "O" : "X",
   };
-
   return (
     <>
       <Modal show={isModalVisible}>
@@ -170,4 +175,4 @@ function Board() {
   );
 }
 
-export default Board;
+export default Game;
