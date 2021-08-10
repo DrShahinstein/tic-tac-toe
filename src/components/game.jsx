@@ -6,6 +6,7 @@ function Game(props) {
   // Functions
   const handleClick = (e) => {
     const spotID = e.target.getAttribute("id");
+    const indexes = coordination[spotID];
 
     if (settings.gameMode === "PvC") {
       // If game mode is "Player vs Computer" ...
@@ -13,7 +14,6 @@ function Game(props) {
       e.target.innerText = players.user; // Place the mark of user to the target spot having in DOM
 
       // Place the mark of user to the target spot of `board` array/state.
-      const indexes = coordination[spotID];
       updateBoardState(indexes[0], indexes[1]);
 
       if (returnValueOfPosition(board) || !getDepth(board)) {
@@ -49,7 +49,6 @@ function Game(props) {
       e.target.innerText = turn; // Place the mark of user to the target spot having in DOM
 
       // Place the mark of user to the target spot of `board` array/state.
-      const indexes = coordination[spotID];
       updateBoardState(indexes[0], indexes[1], turn);
 
       if (returnValueOfPosition(board) || !getDepth(board)) {
