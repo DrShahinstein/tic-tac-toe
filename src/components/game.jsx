@@ -93,13 +93,11 @@ function Game(props) {
           board[i][j] = players.user;
           const bestValuesForComputer = max(board);
 
-          if (bestValuesForComputer.point < highestValue) {
+          if (bestValuesForComputer["point"] < highestValue) {
             highestValue = bestValuesForComputer.point;
+            // console.log(highestValue)
           }
-
           board[i][j] = EMPTY;
-        } else {
-          setIsWarningModalVisible(!isWarningModalVisible);
         }
       }
     }
@@ -111,7 +109,7 @@ function Game(props) {
     const valueOfPosition = returnValueOfPosition(board);
 
     if (valueOfPosition !== 0 || getDepth(board) === 0) {
-      return valueOfPosition;
+      return { point: valueOfPosition, row: -1, col: -1 };
     }
 
     let highestValue = -Infinity;
@@ -129,15 +127,12 @@ function Game(props) {
             bestRow = i;
             bestCol = j;
           }
-
           board[i][j] = EMPTY;
-        } else {
-          setIsWarningModalVisible(!isWarningModalVisible);
         }
       }
     }
     return {
-      highestValue: highestValue,
+      point: highestValue,
       row: bestRow,
       col: bestCol,
     };
@@ -219,15 +214,32 @@ function Game(props) {
     opponnent: settings.user === "X" ? "O" : "X",
   };
 
+  let modalDatas = {
+    title: undefined,
+    bodyText: undefined,
+  };
+
+  if (isResultModalVisible) {
+    let finalPoint = max(board).point;
+    if (finalPoint === 0) {
+      modalDatas.title = "Draw";
+      modalDatas.bodyText = "Match Has Ended with Draw !";
+    }
+    if (finalPoint === 1) {
+      modalDatas.title = "Computer";
+      modalDatas.bodyText = "Computer Has Won !";
+    }
+  }
+
   return (
     <>
       <Modal show={isResultModalVisible}>
         <Modal.Header>
-          <Modal.Title>[ RESULT ]</Modal.Title>
+          <Modal.Title>{modalDatas.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>
-            [?] Has Won the Game ! <br />
+            {modalDatas.bodyText} <br />
           </p>
         </Modal.Body>
         <Modal.Footer>
