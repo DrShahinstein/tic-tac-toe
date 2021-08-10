@@ -5,54 +5,16 @@ import Spot from "./spot";
 function Game(props) {
   // Functions
   const handleClick = (e) => {
+    const spotID = e.target.getAttribute("id");
+
     if (settings.gameMode === "PvC") {
       // If game mode is "Player vs Computer" ...
 
       e.target.innerText = players.user; // Place the mark of user to the target spot having in DOM
 
       // Place the mark of user to the target spot of `board` array/state.
-      const spotID = e.target.getAttribute("id");
-
-      switch (spotID) {
-        case "spot-1":
-          updateBoardState(0, 0);
-          break;
-
-        case "spot-2":
-          updateBoardState(0, 1);
-          break;
-
-        case "spot-3":
-          updateBoardState(0, 2);
-          break;
-
-        case "spot-4":
-          updateBoardState(1, 0);
-          break;
-
-        case "spot-5":
-          updateBoardState(1, 1);
-          break;
-
-        case "spot-6":
-          updateBoardState(1, 2);
-          break;
-
-        case "spot-7":
-          updateBoardState(2, 0);
-          break;
-
-        case "spot-8":
-          updateBoardState(2, 1);
-          break;
-
-        case "spot-9":
-          updateBoardState(2, 2);
-          break;
-
-        default:
-        //
-      }
+      const indexes = coordination[spotID];
+      updateBoardState(indexes[0], indexes[1]);
 
       if (returnValueOfPosition(board) || !getDepth(board)) {
         // Did game finish ? In this case:
@@ -65,6 +27,35 @@ function Game(props) {
       }
     } else {
       // Otherwise, if the game mode is PvP:
+      let countOfX = 0;
+      let countOfO = 0;
+      let turn;
+
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (board[i][j] === "X") countOfX += 1;
+          else if (board[i][j] === "O") countOfO += 1;
+        }
+      }
+
+      if (!countOfX && !countOfO) {
+        turn = "X";
+      } else if (countOfX === countOfO) {
+        turn = "X";
+      } else if (countOfX > countOfO) {
+        turn = "O";
+      }
+
+      e.target.innerText = turn; // Place the mark of user to the target spot having in DOM
+
+      // Place the mark of user to the target spot of `board` array/state.
+      const indexes = coordination[spotID];
+      updateBoardState(indexes[0], indexes[1], turn);
+
+      if (returnValueOfPosition(board) || !getDepth(board)) {
+        // Did game finish ? In this case:
+        setIsResultModalVisible(!isResultModalVisible);
+      }
     }
   };
 
@@ -221,6 +212,18 @@ function Game(props) {
     bodyText: undefined,
   };
 
+  let coordination = {
+    1: [0, 0],
+    2: [0, 1],
+    3: [0, 2],
+    4: [1, 0],
+    5: [1, 1],
+    6: [1, 2],
+    7: [2, 0],
+    8: [2, 1],
+    9: [2, 2],
+  };
+
   if (isResultModalVisible) {
     let finalPoint = max(board).point;
     if (finalPoint === 0) {
@@ -230,6 +233,10 @@ function Game(props) {
     if (finalPoint === 1) {
       modalDatas.title = "Computer";
       modalDatas.bodyText = "Computer Has Won !";
+    }
+    if (finalPoint === -1) {
+      modalDatas.title = "User";
+      modalDatas.bodyText = "User Has Won !";
     }
   }
 
@@ -276,17 +283,17 @@ function Game(props) {
       </Modal>
 
       <div id="board">
-        <Spot id="spot-1" onClick={handleClick} value={board[0][0]} />
-        <Spot id="spot-2" onClick={handleClick} value={board[0][1]} />
-        <Spot id="spot-3" onClick={handleClick} value={board[0][2]} />
+        <Spot id="1" onClick={handleClick} value={board[0][0]} />
+        <Spot id="2" onClick={handleClick} value={board[0][1]} />
+        <Spot id="3" onClick={handleClick} value={board[0][2]} />
 
-        <Spot id="spot-4" onClick={handleClick} value={board[1][0]} />
-        <Spot id="spot-5" onClick={handleClick} value={board[1][1]} />
-        <Spot id="spot-6" onClick={handleClick} value={board[1][2]} />
+        <Spot id="4" onClick={handleClick} value={board[1][0]} />
+        <Spot id="5" onClick={handleClick} value={board[1][1]} />
+        <Spot id="6" onClick={handleClick} value={board[1][2]} />
 
-        <Spot id="spot-7" onClick={handleClick} value={board[2][0]} />
-        <Spot id="spot-8" onClick={handleClick} value={board[2][1]} />
-        <Spot id="spot-9" onClick={handleClick} value={board[2][2]} />
+        <Spot id="7" onClick={handleClick} value={board[2][0]} />
+        <Spot id="8" onClick={handleClick} value={board[2][1]} />
+        <Spot id="9" onClick={handleClick} value={board[2][2]} />
       </div>
     </>
   );
