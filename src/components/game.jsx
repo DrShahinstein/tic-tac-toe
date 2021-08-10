@@ -97,7 +97,6 @@ function Game(props) {
 
           if (bestValuesForComputer["point"] < highestValue) {
             highestValue = bestValuesForComputer.point;
-            // console.log(highestValue)
           }
           board[i][j] = EMPTY;
         }

@@ -33,11 +33,17 @@ class App extends React.Component {
     if (this.state.theme === "Light") {
       document.body.style.backgroundColor = "#222222";
       document.getElementById("board").style.color = "white";
+      for (let i of document.getElementsByClassName("spot")) {
+        i.style.border = "1px solid white";
+      }
 
       this.setState({ theme: "Dark" });
     } else {
       document.body.style.backgroundColor = "White";
       document.getElementById("board").style.color = "#222222";
+      for (let i of document.getElementsByClassName("spot")) {
+        i.style.border = "1px solid #333333";
+      }
 
       this.setState({ theme: "Light" });
     }
