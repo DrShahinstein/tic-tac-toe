@@ -30,22 +30,26 @@ class App extends React.Component {
   };
 
   themeSwitcher = () => {
-    if (this.state.theme === "Light") {
-      document.body.style.backgroundColor = "#222222";
-      document.getElementById("board").style.color = "white";
-      for (let i of document.getElementsByClassName("spot")) {
-        i.style.border = "1px solid white";
-      }
+    const boardDOM = document.getElementById("board");
 
-      this.setState({ theme: "Dark" });
-    } else {
-      document.body.style.backgroundColor = "White";
-      document.getElementById("board").style.color = "#222222";
-      for (let i of document.getElementsByClassName("spot")) {
-        i.style.border = "1px solid #333333";
-      }
+    if (boardDOM) {
+      if (this.state.theme === "Light") {
+        document.body.style.backgroundColor = "#222222";
+        boardDOM.style.color = "white";
+        for (let i of document.getElementsByClassName("spot")) {
+          i.style.border = "1px solid white";
+        }
 
-      this.setState({ theme: "Light" });
+        this.setState({ theme: "Dark" });
+      } else {
+        document.body.style.backgroundColor = "white";
+        boardDOM.style.color = "#222222";
+        for (let i of document.getElementsByClassName("spot")) {
+          i.style.border = "1px solid #333333";
+        }
+
+        this.setState({ theme: "Light" });
+      }
     }
   };
 
@@ -82,7 +86,7 @@ class App extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <p>
-              You should set your settings before playing the game <br />
+              You should set all settings before playing the game <br />
             </p>
           </Modal.Body>
           <Modal.Footer>
@@ -94,6 +98,7 @@ class App extends React.Component {
             </Button>
           </Modal.Footer>
         </Modal>
+
         <div id="settings-gui">
           <div>
             <h2>Select Game Mode</h2>
