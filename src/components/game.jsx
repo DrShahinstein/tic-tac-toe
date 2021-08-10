@@ -61,6 +61,7 @@ function Game(props) {
         // otherwise:
         const bestValues = max(board);
         updateBoardState(bestValues.row, bestValues.col, players.opponnent);
+        forceUpdate(); // Forcing React to re-render
       }
     } else {
       // Otherwise, if the game mode is PvP:
@@ -72,6 +73,7 @@ function Game(props) {
     setBoard(initialBoard);
   };
 
+  // used for updating the `board` array easily.
   const updateBoardState = (row, col, player = players.user) => {
     let newBoard = board;
     newBoard[row][col] = player;
@@ -206,6 +208,7 @@ function Game(props) {
 
   const [isResultModalVisible, setIsResultModalVisible] = useState(false);
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
+  const forceUpdate = React.useReducer(() => ({}))[1];
 
   const settings = props.settings;
 
