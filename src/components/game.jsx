@@ -9,51 +9,55 @@ function Game(props) {
     const targetSpotID = targetSpot.getAttribute("id");
     const indexesOfTargetSpot = coordination[targetSpotID];
 
-    if (settings.gameMode === "PvC") {
-      targetSpot.innerText = players.user;
-      updateBoardState(...indexesOfTargetSpot, players.user);
+    if (targetSpot.innerText !== EMPTY) {
+      setShowWarningModal(!showWarningModal);
+    } else {
+      if (settings.gameMode === "PvC") {
+        targetSpot.innerText = players.user;
+        updateBoardState(...indexesOfTargetSpot, players.user);
 
-      if (!getDepth()) {
-        setShowResultModal(!showResultModal);
+        if (!getDepth()) {
+          setShowResultModal(!showResultModal);
+        } else {
+          const bestValuesForComputer = max();
+          updateBoardState(
+            bestValuesForComputer.row,
+            bestValuesForComputer.col,
+            players.opponnent
+          );
+
+          if (isFinished()) {
+            setShowResultModal(!showResultModal);
+          }
+        }
       } else {
-        const bestValuesForComputer = max();
-        updateBoardState(
-          bestValuesForComputer.row,
-          bestValuesForComputer.col,
-          players.opponnent
-        );
+        let countOfX = 0;
+        let countOfO = 0;
+        let turn;
 
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (board[i][j] === "X") countOfX += 1;
+            else if (board[i][j] === "O") countOfO += 1;
+          }
+        }
+
+        if (!countOfX && !countOfO) {
+          turn = "X";
+        } else if (countOfX && !countOfO) {
+          turn = "O";
+        } else if (countOfX === countOfO) {
+          turn = "X";
+        } else if (countOfX > countOfO) {
+          turn = "O";
+        } else if (countOfO > countOfX) {
+          turn = "X";
+        }
+
+        updateBoardState(...indexesOfTargetSpot, turn);
         if (isFinished()) {
           setShowResultModal(!showResultModal);
         }
-      }
-    } else {
-      let countOfX = 0;
-      let countOfO = 0;
-      let turn;
-
-      for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-          if (board[i][j] === "X") countOfX += 1;
-          else if (board[i][j] === "O") countOfO += 1;
-        }
-      }
-
-      if (!countOfX && !countOfO) {
-        turn = "X";
-      } else if (countOfX && !countOfO) {
-        turn = "O";
-      } else if (countOfX === countOfO) {
-        turn = "X";
-      } else if (countOfX > countOfO) {
-        turn = "O";
-      } else if (countOfO > countOfX) {
-        turn = "X";
-      }
-
-      updateBoardState(...indexesOfTargetSpot, turn);
-      if (isFinished()) {
-        setShowResultModal(!showResultModal);
       }
     }
   };
@@ -286,7 +290,7 @@ function Game(props) {
           <Button variant="secondary" onClick={closeWarningModal}>
             Close
           </Button>
-          <Button onClick={showWarningModal}>OK</Button>
+          <Button onClick={closeWarningModal}>OK</Button>
         </Modal.Footer>
       </Modal>
 
