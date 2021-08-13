@@ -245,6 +245,19 @@ function Game(props) {
     }
   }
 
+  if (
+    settings.gameMode === "PvC" &&
+    players.user === "O" &&
+    board === initialBoard
+  ) {
+    const bestValuesForComputer = max();
+    updateBoardState(
+      bestValuesForComputer.row,
+      bestValuesForComputer.col,
+      players.opponnent
+    );
+  }
+
   return (
     <>
       <Modal show={showResultModal}>
