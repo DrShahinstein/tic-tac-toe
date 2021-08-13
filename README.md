@@ -2,19 +2,20 @@
 This project contains a minimax algorithm implemented tic tac toe app built with React.
 
 ## Table of Contents
-* [Requirements](##Requirements)
-* [Installation](##Installation)
-* [Usage](##Usage)
-* [Technologies](##Technologies)
-* [Credits](##Credits)
+* [Requirements](#Requirements)
+* [Installation](#Installation)
+* [Usage](#Usage)
+* [Technologies](#Technologies)
+* [Credits](#Credits)
 
 ----
-
+<a name="Requirements"></a>
 ## Requirements
 * [NPM](https://www.npmjs.com/)
 * [NodeJS](https://nodejs.org/en/)
 ___
 
+<a name="Installation"></a>
 ## Installation
 ```bash
 git clone https://github.com/UnreolFreedom/tic-tac-toe.git
@@ -23,6 +24,7 @@ npm install
 npm start
 ```
 ---
+<a name="Usage"></a>
 ## Usage / Gameplay
 Firstly, configure your settings by clicking to the options having in settings interface before switching to the board which you'll play tic tac toe and then click to "OK" button.
 ___
@@ -39,6 +41,7 @@ And finally, an example gameplay
 
 
 ---
+<a name="Technologies"></a>
 ## Technologies
 | Technology  | Version |
 | ------------- | ------------- |
@@ -47,6 +50,7 @@ And finally, an example gameplay
 | Bootstrap | 5.0.2 |
 ___
 
+<a name="Credits"></a>
 ## Credits
 <img src="https://avatars.githubusercontent.com/u/81323808?v=4" width="100px"></img>
 <img src="https://avatars.githubusercontent.com/u/66941061?v=4" width="100px"></img>
