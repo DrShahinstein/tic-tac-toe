@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Board from "./board";
+import Minimax from "../minimax";
 
 function Game(props) {
   // Functions
@@ -16,17 +17,17 @@ function Game(props) {
         targetSpot.innerText = players.user;
         updateBoardState(...indexesOfTargetSpot, players.user);
 
-        if (!getDepth()) {
+        if (!minimax.getDepth()) {
           setShowResultModal(!showResultModal);
         } else {
-          const bestValuesForComputer = max();
+          const bestValuesForComputer = minimax.max();
           updateBoardState(
             bestValuesForComputer.row,
             bestValuesForComputer.col,
             players.opponnent
           );
 
-          if (isFinished()) {
+          if (minimax.isFinished()) {
             setShowResultModal(!showResultModal);
           }
         }
@@ -55,113 +56,11 @@ function Game(props) {
         }
 
         updateBoardState(...indexesOfTargetSpot, turn);
-        if (isFinished()) {
+        if (minimax.isFinished()) {
           setShowResultModal(!showResultModal);
         }
       }
     }
-  };
-
-  const min = () => {
-    const valueOfPosition = returnValueOfPosition();
-
-    if (isFinished()) {
-      return valueOfPosition;
-    }
-
-    let maxValue = Infinity;
-
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        if (board[i][j] === EMPTY) {
-          board[i][j] = players.user;
-          const bestValuesForComputer = max();
-
-          if (bestValuesForComputer.point < maxValue) {
-            maxValue = bestValuesForComputer.point;
-          }
-          board[i][j] = EMPTY;
-        }
-      }
-    }
-
-    return maxValue;
-  };
-
-  const max = () => {
-    const valueOfPosition = returnValueOfPosition();
-
-    if (isFinished()) {
-      return { point: valueOfPosition, row: -1, col: -1 };
-    }
-
-    let lowestValue = -Infinity;
-    let bestRow = undefined;
-    let bestCol = undefined;
-
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        if (board[i][j] === EMPTY) {
-          board[i][j] = players.opponnent;
-          const bestPointForUser = min();
-
-          if (bestPointForUser > lowestValue) {
-            lowestValue = bestPointForUser;
-            bestRow = i;
-            bestCol = j;
-          }
-          board[i][j] = EMPTY;
-        }
-      }
-    }
-    return {
-      point: lowestValue,
-      row: bestRow,
-      col: bestCol,
-    };
-  };
-
-  const returnValueOfPosition = () => {
-    for (let i = 0; i < 3; i++) {
-      if (
-        board[0][i] === board[1][i] &&
-        board[1][i] === board[2][i] &&
-        board[0][i] !== EMPTY
-      ) {
-        if (board[0][i] === players.user) return -1;
-        else return 1;
-      }
-    }
-
-    for (let i = 0; i < 3; i++) {
-      if (
-        board[i][0] === board[i][1] &&
-        board[i][1] === board[i][2] &&
-        board[i][0] !== EMPTY
-      ) {
-        if (board[i][0] === players.user) return -1;
-        else return 1;
-      }
-    }
-
-    if (
-      board[0][0] === board[1][1] &&
-      board[1][1] === board[2][2] &&
-      board[0][0] !== EMPTY
-    ) {
-      if (board[0][0] === players.user) return -1;
-      else return 1;
-    }
-
-    if (
-      board[0][2] === board[1][1] &&
-      board[1][1] === board[2][0] &&
-      board[0][2] !== EMPTY
-    ) {
-      if (board[0][2] === players.user) return -1;
-      else return 1;
-    }
-    return 0;
   };
 
   const updateBoardState = (row, col, player) => {
@@ -169,25 +68,6 @@ function Game(props) {
     currentBoard[row][col] = player;
     setBoard(currentBoard);
     forceUpdate();
-  };
-
-  const isFinished = () => {
-    if ((!getDepth() && !returnValueOfPosition()) || returnValueOfPosition()) {
-      return true;
-    }
-    return false;
-  };
-
-  const getDepth = () => {
-    let count = 0;
-
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        if (board[i][j] === EMPTY) count += 1;
-      }
-    }
-
-    return count;
   };
 
   const playAgain = () => {
@@ -217,6 +97,7 @@ function Game(props) {
     user: settings.user,
     opponnent: settings.user === "X" ? "O" : "X",
   };
+  const minimax = new Minimax(board, players);
   let modalDatas = {
     title: undefined,
     bodyText: undefined,
@@ -234,7 +115,7 @@ function Game(props) {
   };
 
   if (showResultModal) {
-    let finalPoint = returnValueOfPosition();
+    let finalPoint = minimax.returnValueOfPosition();
     if (finalPoint === 0) {
       modalDatas.title = "Draw";
       modalDatas.bodyText = "Match Has Ended with Draw !";
@@ -254,7 +135,7 @@ function Game(props) {
     players.user === "O" &&
     board === initialBoard
   ) {
-    const bestValuesForComputer = max();
+    const bestValuesForComputer = minimax.max();
     updateBoardState(
       bestValuesForComputer.row,
       bestValuesForComputer.col,
