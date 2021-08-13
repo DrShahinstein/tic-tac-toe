@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import Spot from "./spot";
+import Board from "./board";
 
 function Game(props) {
   // Functions
@@ -294,19 +294,7 @@ function Game(props) {
         </Modal.Footer>
       </Modal>
 
-      <div id="board">
-        <Spot id="1" onClick={handleClick} value={board[0][0]} />
-        <Spot id="2" onClick={handleClick} value={board[0][1]} />
-        <Spot id="3" onClick={handleClick} value={board[0][2]} />
-
-        <Spot id="4" onClick={handleClick} value={board[1][0]} />
-        <Spot id="5" onClick={handleClick} value={board[1][1]} />
-        <Spot id="6" onClick={handleClick} value={board[1][2]} />
-
-        <Spot id="7" onClick={handleClick} value={board[2][0]} />
-        <Spot id="8" onClick={handleClick} value={board[2][1]} />
-        <Spot id="9" onClick={handleClick} value={board[2][2]} />
-      </div>
+      <Board board={board} onClickedToSpots={handleClick} />
     </>
   );
 }
