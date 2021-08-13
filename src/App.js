@@ -119,8 +119,8 @@ class App extends React.Component {
             </div>
           </div>
           <br />
-          <div>Game Mode: {this.state.gameMode}</div>
-          <div>User's Pick: {this.state.user}</div>
+          <div className="setting-info">Game Mode: {this.state.gameMode}</div>
+          <div className="setting-info">User's Pick: {this.state.user}</div>
           <br /> <br /> <br />
           <Button onClick={this.saveSettings}>OK</Button>
         </div>
