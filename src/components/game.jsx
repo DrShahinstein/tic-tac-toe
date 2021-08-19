@@ -133,7 +133,7 @@ function Game(props) {
   if (
     settings.gameMode === "PvC" &&
     players.user === "O" &&
-    board === initialBoard
+    board.toString() === initialBoard.toString() // "Objects" don't equal to each other even though they're the same, so we should turn the objects into string forms for a true comparison.
   ) {
     const bestValuesForComputer = minimax.max();
     updateBoardState(
