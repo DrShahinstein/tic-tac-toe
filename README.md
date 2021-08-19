@@ -2,13 +2,12 @@
 This project contains a minimax algorithm implemented tic tac toe app built with React.
 
 ## Table of Contents
-- [Tic Tac Toe App](#tic-tac-toe-app)
-  - [Table of Contents](#table-of-contents)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
-  - [Usage / Gameplay](#usage--gameplay)
-  - [Technologies](#technologies)
-  - [Credits](#credits)
+- [Table of Contents](#table-of-contents)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage / Gameplay](#usage--gameplay)
+- [Technologies](#technologies)
+- [Credits](#credits)
 
 ----
 <a name="Requirements"></a>
