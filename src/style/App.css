@@ -46,8 +46,8 @@
 
 .github-link {
   position: absolute;
-  right: 30px;
-  bottom: 30px;
+  right: 10px;
+  bottom: 10px;
   letter-spacing: 3px;
   font-family: "Quicksand", sans-serif;
   font-size: 23px;
