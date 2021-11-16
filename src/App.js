@@ -124,6 +124,15 @@ class App extends React.Component {
           <br />
           <Button onClick={this.saveSettings}>OK</Button>
         </div>
+
+        <a
+          className="github-link"
+          href="https://github.com/Unreol-Freedom/tic-tac-toe"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Github
+        </a>
       </>
     );
   }
