@@ -1,4 +1,5 @@
 import React from "react";
+import "./style/App.css";
 import { Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Game from "./components/game";
