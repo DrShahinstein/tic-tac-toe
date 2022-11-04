@@ -121,11 +121,11 @@ function Game(props) {
       modalDatas.bodyText = "The match ended in a draw!";
     }
     if (finalPoint === 1) {
-      modalDatas.title = "O";
+      modalDatas.title = "Game Over";
       modalDatas.bodyText = "O won!";
     }
     if (finalPoint === -1) {
-      modalDatas.title = "X";
+      modalDatas.title = "Game Over";
       modalDatas.bodyText = "X won!";
     }
   }
