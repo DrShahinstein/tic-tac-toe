@@ -118,15 +118,15 @@ function Game(props) {
     let finalPoint = minimax.returnValueOfPosition();
     if (finalPoint === 0) {
       modalDatas.title = "Draw";
-      modalDatas.bodyText = "Match Has Ended with Draw !";
+      modalDatas.bodyText = "The match ended in a draw!";
     }
     if (finalPoint === 1) {
-      modalDatas.title = "Opponnent";
-      modalDatas.bodyText = "Opponnent Has Won !";
+      modalDatas.title = "O";
+      modalDatas.bodyText = "O won!";
     }
     if (finalPoint === -1) {
-      modalDatas.title = "User";
-      modalDatas.bodyText = "User Has Won !";
+      modalDatas.title = "X";
+      modalDatas.bodyText = "X won!";
     }
   }
 
