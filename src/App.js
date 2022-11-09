@@ -87,7 +87,7 @@ class App extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <p>
-              You should set all settings before playing the game <br />
+              You must set all settings before playing the game <br />
             </p>
           </Modal.Body>
           <Modal.Footer>
@@ -111,7 +111,7 @@ class App extends React.Component {
             </div>
           </div>
           <div className="mt-5">
-            <h2>Select Your Side</h2>
+            <h2>Select X/O</h2>
             <div className="option" onClick={() => this.setPickOfUser("X")}>
               <b>X</b>
             </div>
