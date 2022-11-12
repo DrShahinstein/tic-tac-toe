@@ -133,7 +133,7 @@ function Game(props) {
   if (
     settings.gameMode === "PvC" &&
     players.user === "O" &&
-    board.toString() === initialBoard.toString() // "Objects" don't equal to each other even though they're the same, so we should turn the objects into string forms for a true comparison.
+    board.toString() === initialBoard.toString() // "Objects" don't equal each other even though they're the same, so we should turn the objects into string forms for a true comparison.
   ) {
     const bestValuesForComputer = minimax.max();
     updateBoardState(
@@ -162,10 +162,10 @@ function Game(props) {
 
       <Modal show={showWarningModal}>
         <Modal.Header>
-          <Modal.Title>You Cannot Move to a Filled Spot</Modal.Title>
+          <Modal.Title>You cannot move to a filled cell.</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>You've tried to move to a filled spot but you it's illegal.</p>
+          <p>You just tried to move to a filled cell.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeWarningModal}>
