@@ -1,21 +1,17 @@
-# Tic Tac Toe App
+# Tic Tac Toe 
 
 This project contains a minimax algorithm implemented tic tac toe app built with React.
 
 ## Table of Contents
 
-- [Tic Tac Toe App](#tic-tac-toe-app)
-  - [Table of Contents](#table-of-contents)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
-  - [Usage / Gameplay](#usage--gameplay)
-  - [Technologies](#technologies)
-  - [Note](#note)
-  - [Credits](#credits)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage / Gameplay](#usage--gameplay)
+- [Technologies](#technologies)
+- [Note](#note)
+- [Credits](#credits)
 
 ---
-
-<a name="Requirements"></a>
 
 ## Requirements
 
@@ -23,8 +19,6 @@ This project contains a minimax algorithm implemented tic tac toe app built with
 - [nodejs](https://nodejs.org/en/)
 
 ---
-
-<a name="Installation"></a>
 
 ## Installation
 
@@ -36,8 +30,6 @@ npm start
 ```
 
 ---
-
-<a name="Usage"></a>
 
 ## Usage / Gameplay
 
@@ -64,8 +56,6 @@ And finally, an example of gameplay
 
 ---
 
-<a name="Technologies"></a>
-
 ## Technologies
 
 | Technology      | Version      |
@@ -80,8 +70,6 @@ And finally, an example of gameplay
 
 If you go through an error like `ERR_OSSL_EVP_UNSUPPORTED`, try exporting this as an environment variable:
 `NODE_OPTIONS=--openssl-legacy-provider`
-
-<a name="Credits"></a>
 
 ## Credits
 
