@@ -2,7 +2,7 @@ import React from "react";
 import "./style/App.css";
 import { Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Game from "./components/game";
+import Game from "./components/Game";
 
 class App extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class App extends React.Component {
       if (this.state.theme === "Light") {
         document.body.style.backgroundColor = "#222222";
         boardDOM.style.color = "white";
-        for (let i of document.getElementsByClassName("spot")) {
+        for (let i of document.getElementsByClassName("cell")) {
           i.style.border = "1px solid white";
         }
 
@@ -45,7 +45,7 @@ class App extends React.Component {
       } else {
         document.body.style.backgroundColor = "white";
         boardDOM.style.color = "#222222";
-        for (let i of document.getElementsByClassName("spot")) {
+        for (let i of document.getElementsByClassName("cell")) {
           i.style.border = "1px solid #333333";
         }
 
