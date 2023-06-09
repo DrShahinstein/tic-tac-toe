@@ -87,7 +87,7 @@ class App extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <p>
-              You must set all settings before playing the game <br />
+              You must arrange all settings before playing the game <br />
             </p>
           </Modal.Body>
           <Modal.Footer>
